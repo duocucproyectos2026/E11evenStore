@@ -1,0 +1,210 @@
+<!-- INCIO SESION GENERAL -->
+{% load static %}
+{% load widget_tweaks %}
+{% load utils_tags %}
+
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>🎮 Inicia sesión :::: 11STORE 🎮</title>
+		<!--CSS-->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    	<link rel="stylesheet" href="{% static 'css/estilo-inicio_sesion.css' %}"> 
+	</head>
+	
+	<body class="d-flex flex-column min-vh-100">
+		
+		<div class="top-bar">
+			<div class="contact-info">
+				
+				<a href="https://www.google.com/maps/place/Galer%C3%ADa+Drugstore/@-33.4229125,-70.6107562,17z/data=!4m15!1m8!3m7!1s0x9662cf100a0fc417:0xf78d982a000a52a6!2sAv.+Los+Leones+1432,+7510608+Providencia,+Santiago,+Regi%C3%B3n+Metropolitana!3b1!8m2!3d-33.432377!4d-70.601921!16s%2Fg%2F11hdz6tf4z!3m5!1s0x9662cf661383b143:0xa54e2a603f76fcc6!8m2!3d-33.4222946!4d-70.6113129!16s%2Fg%2F1tc_xtdt?entry=ttu&g_ep=EgoyMDI1MDQxNi4xIKXMDSoASAFQAw%3D%3D"
+				target="_blank"
+				class="direccion-link ms-4 d-inline-flex align-items-center">
+					<i class="bi bi-geo-alt me-2"></i>
+					<span>Galería Drugstore, Los Leones 2124 local 9B, Providencia</span>
+				</a>
+				
+			</div>
+			
+			<div class="social-icons">
+				<a href="https://www.facebook.com/e11even_store" target="_blank">
+					<img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="Facebook" width="40">
+				</a>
+				<a href="https://www.twitter.com/e11even_store" target="_blank">
+					<img src="https://cdn-icons-png.flaticon.com/512/124/124021.png" alt="Twitter" width="40">
+				</a>
+				<a href="https://www.instagram.com/e11even_store" target="_blank">
+					<img src="https://cdn-icons-png.flaticon.com/512/1409/1409946.png" alt="Instagram" width="40">
+				</a>
+				
+			</div>
+		</div>
+		
+		<div class="main-content flex-grow-1">
+			
+			<div class="header-container">
+				<div class="logo">
+					<img src="{% static 'img/logo11Store.png' %}" alt="Logo de la tienda">
+				</div>
+
+				<div class="nav-menu">
+					<ul>
+						<li><a href="{% url 'inicio' %}">🏠 Inicio</a></li>
+						<li><a href="{% url 'menu_categorias' %}">≣ Categorías</a></li>
+						<li>
+							<a href="{% url 'carro_compras' %}">
+								🛒 Carrito{% if contador_carro > 0 %} ({{ contador_carro }}){% endif %}
+							</a>
+						</li>
+						<li><a href="{% url 'contacto' %}">✉ Contacto</a></li>
+						<li><a href="{% url 'inicio_sesion' %}">🔐 Iniciar sesión</a></li>
+						<li><a href="{% url 'formulario_registro' %}" class="login-btn">Regístrate</a></li>
+					</ul>
+				</div>
+			</div>
+			
+			
+			<div class="outer-wrapper">
+				<div class="login-container">			
+					<h2 class="text-center">Iniciar Sesión</h2>
+					<form id="loginForm" class="mx-auto" style="max-width:400px;" method="post" action="">
+						
+						{% if messages %}
+						<ul class="messages">
+							{% for message in messages %}
+							<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+								{{ message }}
+							</li>
+							{% endfor %}
+						</ul>
+						{% endif %}
+						
+						{% csrf_token %}
+						
+						<div class="mb-3">
+							{{ form.email|add_class:"form-control" }}
+						</div>
+						
+						<div class="mb-3">
+							{{ form.clave|add_class:"form-control" }}
+						</div>
+						
+						
+						<!-- Switch para rol Admin -->
+						<div class="form-check form-switch mb-3">
+							<input class="form-check-input" type="checkbox" id="switchAdmin" name="es_admin">
+							<label class="form-check-label" for="switchAdmin">Registrarse como Administrador</label>
+						</div>
+						
+						<button type="submit" class="btn btn-primary" id="btnLogin">Iniciar sesión</button>
+						
+					</form>
+					
+					
+					<p class="mt-2 text-center">
+						<a href="#" id="linkRecuperar">¿Olvidaste tu contraseña?</a>
+					</p>
+					
+					<!-- Sección para recuperación de contraseña -->
+					<div id="recuperacionContainer" class="mx-auto" style="max-width:400px; display:none;">
+						<h4 class="text-center">Recuperar Contraseña</h4>
+						<input type="email" id="emailRecuperar" class="form-control" placeholder="Ingresa tu correo">
+						
+						<button class="btn btn-secondary mt-2 w-100" onclick="enviarRecuperacion()">Enviar</button>
+						<p id="mensajeRecuperacion" class="mt-2 text-center"></p>
+						</div>
+				</div>
+			</div>
+			
+			<!-- Información externa -->
+			<div class="pie-info">
+				<h2>🎮 Juegos Populares (RAWG)</h2>
+				<ul>
+					{% if juegos %}
+					{% for juego in juegos|slice:":6" %}
+					<li>
+						<a href="https://rawg.io/games/{{ juego.slug }}" target="_blank" style="text-decoration: none; color: inherit;">
+							<strong>{{ juego.name }}</strong> (Rating: {{ juego.rating }})<br>
+							<img src="{{ juego.background_image }}" width="300"><br>
+						</a>
+						Fecha de lanzamiento: {{ juego.released }}
+					</li>
+					<hr>
+					{% endfor %}
+					{% else %}
+					<p>No se pudieron cargar los juegos populares en este momento.</p>
+					{% endif %}
+				</ul>
+				
+				<h2>📰 Noticias Recientes sobre Videojuegos</h2>
+				<ul class="noticias-juegos">
+					{% if noticias %}
+					{% for noticia in noticias|slice:":4" %}
+					<li>
+						<a href="{{ noticia.url }}" target="_blank" class="noticia-link">{{ noticia.title }}</a><br>
+						<img src="{{ noticia.urlToImage }}" alt="{{ noticia.title }}" width="200"><br>
+						<small>Fuente: {{ noticia.source.name }} | {{ noticia.publishedAt }}</small>
+					</li>
+					<hr>
+					{% endfor %}
+					{% else %}
+					<p>No se pudieron cargar las noticias en este momento.</p>
+					{% endif %}
+				</ul>
+			</div>
+			
+		</div>	
+		
+		<!-- Script  -->	
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		
+		<script>
+			//evitar doble envio de solicitud de ingreso
+			document.getElementById('loginForm').addEventListener('submit', function(e) {
+				const btn = document.getElementById('btnLogin');
+				btn.disabled = true;
+				btn.innerText = 'Ingresando...';
+			});
+			
+			
+			document.getElementById('linkRecuperar').addEventListener('click', function(e) {
+				e.preventDefault();
+				document.getElementById('recuperacionContainer').style.display = 'block';
+			});
+			
+			function enviarRecuperacion() {
+				let email = document.getElementById('emailRecuperar').value;
+				document.getElementById('mensajeRecuperacion').innerText = "Se ha enviado un link a " + email + " para recuperar tu cuenta.";
+			}
+			
+			// Script para gestionar el valor del switch
+			const switchAdmin = document.getElementById('switchAdmin');
+			const hiddenInput = document.createElement('input');
+			hiddenInput.type = 'hidden';
+			hiddenInput.name = 'es_admin';
+			hiddenInput.value = '0';  // Valor por defecto (cliente)
+			
+			// Añadimos el input oculto al formulario
+			document.querySelector('form').appendChild(hiddenInput);
+			
+			// Cambiar el valor del campo 'es_admin' cuando el switch se activa
+			switchAdmin.addEventListener('change', function() {
+				if (switchAdmin.checked) {
+					hiddenInput.value = '1';  // Valor para administrador
+					} else {
+					hiddenInput.value = '0';  // Valor para cliente
+				}
+			});
+			
+		</script>
+		
+		<!-- Footer fijo -->
+		<footer class="footer">
+			<p>&copy; 2025 E11EVEN STORE. Todos los derechos reservados.</p>
+		</footer>
+		
+	</body>
+</html>

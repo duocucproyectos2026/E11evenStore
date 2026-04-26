@@ -1,0 +1,427 @@
+/*===============   Estilo general =======================*/
+
+html, body {
+	width: 100%;
+	height: 100%;
+	font-family: Arial, sans-serif;
+	background-color: #080b30;
+	background-image: url('/static/img/fondo-web1.jpg');
+	background-size: cover;
+	background-position: center;
+	background-repeat: repeat;
+	backdrop-filter: blur(5px);
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+/* top bar */
+
+.top-bar {
+	background: linear-gradient(to right, rgba(6, 4, 31, 0.7), rgba(11, 20, 54, 0.7), rgba(21, 8, 97, 0.7));
+	color: white;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px 50px;
+	flex-wrap: wrap;
+}
+
+.top-bar .contact-info {
+	display: flex;
+	align-items: center;
+}
+
+.top-bar .social-icons a {
+	color: black;
+	font-size: 18px;
+	margin-left: 15px;
+	text-decoration: none;
+}
+
+.top-bar .social-icons a:hover {
+	color: #555;
+}
+
+/* Google maps */
+.contact-info a.direccion-link {
+	text-decoration: none;
+	color: inherit;
+	transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.contact-info a.direccion-link:hover {
+	color: #0d6efd; 
+	text-decoration: underline;
+}
+
+.contact-info i.bi-geo-alt {
+	transition: color 0.3s ease;
+}
+
+.contact-info a.direccion-link:hover i.bi-geo-alt {
+	color: #0d6efd;
+}
+/* header */
+
+.header-container {
+	width: 100%;
+	background: linear-gradient(to right, rgba(6, 4, 31, 0.7), rgba(11, 20, 54, 0.7), rgba(21, 8, 97, 0.7));
+	color: white;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px 50px;
+	flex-wrap: wrap;
+}
+
+.logo img {
+	height: 100px;
+}
+
+/* menu navegacion */
+
+.nav-menu {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 20px;
+}
+
+.nav-menu ul {
+	list-style: none;
+	display: flex;
+	gap: 20px;
+	margin: 0;
+	padding: 0;
+}
+
+.nav-menu ul li a {
+	color: #ffffff;
+	text-decoration: none;
+	font-size: 1.1em;
+	padding: 8px 12px;
+	transition: color 0.3s;
+}
+
+.nav-menu ul li a:hover {
+	color: #7f1172;
+}
+
+.nav-menu ul li a.login-btn {
+	background-color: #6857b4;
+	color: #ffffff;
+	border-radius: 20px;
+	padding: 10px 20px;
+	font-weight: bold;
+	text-transform: uppercase;
+	transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-menu ul li a.login-btn:hover {
+	background-color: #151a78;
+	color: #000000;
+}
+
+/* =======================   fin estilo general  =======================*/
+
+/* -------- pag. carrito compra ---------- */
+
+ul#carrito {
+    list-style: none;
+    padding: 0;
+    margin: 20px auto;
+    width: 100%; 
+    background: rgba(255, 255, 255, 0.1); 
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+
+ul#carrito li {
+	padding: 15px 20px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+
+/* estilo productos carrito */
+
+.producto {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    color: white;
+}
+
+
+/* btn eliminar productos */
+button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background-color: #cc0000;
+}
+
+/* contenedor carrito compras */
+
+.carrito-wrapper {
+    text-align: center;
+    align-items: center;
+    margin-top: 1.5rem;
+    background-color: rgba(125, 124, 228, 0.65);
+    padding: 20px;
+    border-radius: 15px;
+    max-width: 100%; 
+    width: 90%; 
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    z-index: 2; 
+	border-radius: 8px;
+	padding: 2rem;
+}
+
+/* Boton Vaciar carrito */
+.btn-warning {
+	background-color: #86210d;
+	color: #fff;
+	font-weight: bold;
+	transition: background-color 0.3s ease;
+}
+
+.btn-warning:hover {
+	background-color: #de2108;
+	
+}
+
+/* Btn Confirmar compra */
+.btn-success {
+	background-color: #135313; 
+	color: #fff;
+	font-weight: bold;
+	transition: background-color 0.3s ease;
+}
+
+.btn-success:hover {
+	background-color: #5c1c6b;
+}
+
+
+
+/* btn volver inicio */
+
+.btn-primary {
+    background: rgba(0, 0, 0, 0.7);
+	color: #ffffff;
+	padding: 10px 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100vw; /* ancho de la ventana */
+	z-index: 10;
+}
+
+.btn-primary:hover {
+    background-color: #f0842b;
+}
+
+
+/* mensaje de compra */
+
+#mensaje-compra {
+	display: none;
+	background-color: rgba(0, 0, 0, 0.85);
+	border: 2px solid #f8732a;
+	border-radius: 10px;
+	padding: 20px;
+	margin-top: 20px;
+	box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.1);
+	text-align: center;
+	width: 100%;
+	color: white;  
+}
+
+#mensaje-compra h2 {
+    color: #fdb122; 
+    font-weight: bold;
+}
+
+#mensaje-compra p {
+    color: #e1dada;
+    font-size: 16px;
+}
+
+#mensaje-vacio {
+    text-align: center;
+    font-size: 18px;
+    color: white;
+    margin-top: 20px;
+}
+
+/* ================== informacion final general =========================== */
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .nav-menu ul {
+        flex-direction: column;
+	}
+	
+    .nav-menu ul li {
+        margin-bottom: 10px;
+	}
+	
+    .game-item {
+        width: 100%;
+	}
+}
+
+
+.pie-info {
+	background-color: rgba(15, 8, 38, 0.6);
+	padding: 20px;
+	border-top: 2px solid #ccc;
+	font-family: Arial, sans-serif;
+	/*nuevo*/
+    clear: both;
+    position: relative;
+    z-index: 1;
+    margin-top: 2rem;
+}
+
+.pie-info h2 {
+	color: #6372b6;
+	margin-bottom: 10px;
+}
+
+.pie-info ul {
+	list-style: none;
+	color:#8479aa;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap; 
+	justify-content: space-around; 
+}
+
+.pie-info li {
+	margin-bottom: 15px;
+	width: 30%; 
+	box-sizing: border-box;
+	margin-right: 10px;
+}
+
+.pie-info img {
+	border-radius: 8px;
+	margin-top: 5px;
+	width: 100%; 
+}
+
+.noticias-juegos h2 {
+	color: #333;
+	margin-bottom: 10px;
+}
+
+.noticias-juegos ul {
+	list-style: none;
+	color:#bca9d7;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px; /* espacio entre tarjetas */
+	justify-content: center;
+}
+
+.noticias-juegos li {
+	width: 250px; 
+	background-color: rgba(255, 255, 255, 0.1);
+	border-radius: 8px;
+	padding: 10px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+	color: rgb(180, 103, 171);
+	text-align: center;
+}
+
+
+.noticias-juegos img {
+	border-radius: 8px;
+	margin-top: 5px;
+	width: 200px;
+}
+
+/* footer*/
+.footer{
+	background-color: rgba(13, 13, 13, 0.85);
+	text-align: center;
+	font-size: 0.9rem;
+	margin-top: 30px;
+	color: white;
+}
+
+/* btn flotante inicio sesion admin/usuario --------------------------- */
+
+.floating-btn {
+	position: fixed;
+	bottom: 25px;
+	right: 25px;
+	z-index: 999;
+	text-align: center;
+}
+
+.floating-options {
+	margin-top: 10px;
+	animation: fadeIn 0.3s ease-in-out;
+}
+
+
+@keyframes fadeIn {
+	from { opacity: 0; transform: translateY(10px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+
+.btn-flotante {
+	background-color: rgb(71, 14, 73);
+	border: none;
+	cursor: pointer;
+    font-size: 16px;
+	padding: 10px 20px;
+}
+
+.btn-flotante:hover {
+	background-color: rgb(72, 4, 79);
+}
+
+/*boton ir a cuenta */
+
+.boton-ir-cuenta {
+    background-color: #4201c5;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.boton-ir-cuenta:hover {
+    background-color: #d36c04;
+    color: #ffffff;
+}

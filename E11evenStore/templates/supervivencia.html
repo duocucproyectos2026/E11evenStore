@@ -1,0 +1,202 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>🎮 Categoria - Supervivencia :::: 11STORE 🎮</title>
+		<!-- css -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+		<link rel="stylesheet" href="{% static 'css/estilos-categorias.css' %}">
+	</head>
+	
+	<body class="d-flex flex-column min-vh-100">
+		
+		<div class="top-bar">
+			<div class="contact-info">
+
+				<a href="https://www.google.com/maps/place/Galer%C3%ADa+Drugstore/@-33.4229125,-70.6107562,17z/data=!4m15!1m8!3m7!1s0x9662cf100a0fc417:0xf78d982a000a52a6!2sAv.+Los+Leones+1432,+7510608+Providencia,+Santiago,+Regi%C3%B3n+Metropolitana!3b1!8m2!3d-33.432377!4d-70.601921!16s%2Fg%2F11hdz6tf4z!3m5!1s0x9662cf661383b143:0xa54e2a603f76fcc6!8m2!3d-33.4222946!4d-70.6113129!16s%2Fg%2F1tc_xtdt?entry=ttu&g_ep=EgoyMDI1MDQxNi4xIKXMDSoASAFQAw%3D%3D"
+				target="_blank"
+				class="direccion-link ms-4 d-inline-flex align-items-center">
+					<i class="bi bi-geo-alt me-2"></i>
+					<span>Galería Drugstore, Los Leones 2124 local 9B, Providencia</span>
+				</a>
+				
+			</div>
+			
+			<div class="social-icons">
+				<a href="https://www.facebook.com/e11even_store" target="_blank">
+					<img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="Facebook" width="40">
+				</a>
+				<a href="https://www.twitter.com/e11even_store" target="_blank">
+					<img src="https://cdn-icons-png.flaticon.com/512/124/124021.png" alt="Twitter" width="40">
+				</a>
+				<a href="https://www.instagram.com/e11even_store" target="_blank">
+					<img src="https://cdn-icons-png.flaticon.com/512/1409/1409946.png" alt="Instagram" width="40">
+				</a>
+				
+			</div>
+		</div>
+		
+		<div class="main-content flex-grow-1">
+			
+			<div class="header-container">
+				<div class="logo">
+					<img src="{% static 'img/logo11Store.png' %}" alt="Logo de la tienda">
+				</div>
+				
+				<div class="nav-menu">
+					<ul>
+						<li><a href="{% url 'inicio' %}">🏠 Inicio</a></li>
+						<li><a href="{% url 'menu_categorias' %}">≣ Categorías</a></li>
+						<li>
+							<a href="{% url 'carro_compras' %}">
+								🛒 Carrito{% if contador_carro > 0 %} ({{ contador_carro }}){% endif %}
+							</a>
+						</li>
+						<li><a href="{% url 'contacto' %}">✉ Contacto</a></li>
+						<li><a href="{% url 'inicio_sesion' %}">🔐 Iniciar sesión</a></li>
+						<li><a href="{% url 'formulario_registro' %}" class="login-btn">Registrate</a></li>
+					</ul>
+				</div>
+				{% if request.session.email_cliente %}
+					<a href="{% url 'login_cliente' %}" class="boton-ir-cuenta">👤 Ir a mi cuenta</a>
+				{% elif request.session.email_admin %}
+					<a href="{% url 'login_admin' %}" class="boton-ir-cuenta">👤 Ir a mi cuenta</a>
+				{% endif %}
+			</div>
+			
+			<header>
+				<h1 class="titulo">Juegos de Supervivencia</h1>
+				
+			</header>
+			
+			<div class="game-list">
+				{% for producto in productos %}
+				<div class="game-item">
+					<img src="{{ producto.imagen }}" alt="{{ producto.nombre }}">
+					<div class="game-info">
+						<h3>{{ producto.nombre }}</h3>
+						<p><b>Precio: CLP${{ producto.precio|intcomma  }}</b></p>
+						<p><b>Stock: {{ producto.stock }}</b></p>
+						
+						<button class="details-btn" onclick="toggleDescripcion('desc{{ forloop.counter }}')">Más detalles</button>
+						<p class="descripcion" id="desc{{ forloop.counter }}">{{ producto.descripcion }}</p>
+						
+						<form method="post" action="{% url 'agregar_al_carro' producto.id %}">
+							{% csrf_token %}
+							<input type="hidden" name="cantidad" value="1">
+							<button type="submit" class="btn btn-carrito">Agregar al carrito</button>
+						</form>
+						
+					</div>
+				</div>
+				{% empty %}
+				<p>No hay productos disponibles en esta categoría.</p>
+				{% endfor %}
+			</div>
+			
+			<div>
+				<!-- Btn para volver al menu categorias -->
+				<a href="{% url 'menu_categorias' %}" class="back-btn"> Volver a Categorias</a>
+			</div>
+			
+			<!-- Información externa -->
+			<div class="pie-info">
+				<h2>🎮 Juegos Populares (RAWG)</h2>
+				<ul>
+					{% if juegos %}
+					{% for juego in juegos|slice:":6" %}
+					<li>
+						<a href="https://rawg.io/games/{{ juego.slug }}" target="_blank" style="text-decoration: none; color: inherit;">
+							<strong>{{ juego.name }}</strong> (Rating: {{ juego.rating }})<br>
+							<img src="{{ juego.background_image }}" width="300"><br>
+						</a>
+						Fecha de lanzamiento: {{ juego.released }}
+					</li>
+					<hr>
+					{% endfor %}
+					{% else %}
+					<p>No se pudieron cargar los juegos populares en este momento.</p>
+					{% endif %}
+				</ul>
+				
+				<h2>📰 Noticias Recientes sobre Videojuegos</h2>
+				<ul class="noticias-juegos">
+					{% if noticias %}
+					{% for noticia in noticias|slice:":4" %}
+					<li>
+						<a href="{{ noticia.url }}" target="_blank" class="noticia-link">{{ noticia.title }}</a><br>
+						<img src="{{ noticia.urlToImage }}" alt="{{ noticia.title }}" width="200"><br>
+						<small>Fuente: {{ noticia.source.name }} | {{ noticia.publishedAt }}</small>
+					</li>
+					<hr>
+					{% endfor %}
+					{% else %}
+					<p>No se pudieron cargar las noticias en este momento.</p>
+					{% endif %}
+				</ul>
+			</div>
+			
+			<!---- Script ---->
+
+			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+			
+			<script>
+				function toggleDescripcion(id) {
+					var descripcion = document.getElementById(id);
+					if (descripcion.style.display === "none" || descripcion.style.display === "") {
+						descripcion.style.display = "block";
+						} else {
+						descripcion.style.display = "none";
+					}
+				}
+				
+				//agregamos fx actualizar carrito y agregar productos para simulacion compra //
+				function actualizarContadorCarrito() {
+					fetch("{% url 'carro_compras' %}")
+					.then(response => response.json())
+					.then(data => {
+						document.getElementById("contador-carrito").textContent = data.total;
+					})
+					.catch(error => {
+						console.error("Error al obtener el contador:", error);
+					});
+				}
+				
+				function agregarAlCarrito(nombre, precio) {
+					fetch("{% url 'carro_compras' %}", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							"X-CSRFToken": "{{ csrf_token }}"
+						},
+						body: JSON.stringify({
+							nombre: nombre,
+							precio: precio,
+							cantidad: 1
+						})
+					})
+					.then(response => {
+						if (response.ok) {
+							alert("Producto agregado al carrito ✅");
+							actualizarContadorCarrito(); 
+							} else {
+							alert("Error al agregar producto.");
+						}
+					});
+				}
+				
+				actualizarContadorCarrito();
+				
+			</script>
+		</div>
+		<!-- Footer fijo -->
+		<footer class="footer">
+			<p>&copy; 2025 E11EVEN STORE. Todos los derechos reservados.</p>
+		</footer>
+	</body>	
+</html>
+
